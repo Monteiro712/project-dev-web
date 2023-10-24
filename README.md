@@ -1,7 +1,7 @@
 
 # Game Kingdom
 
-Uma loja virtual de jogos digitais 
+Uma loja virtual de jogos digitais blabla
 
 
 ## Documentação da API
