@@ -5,6 +5,8 @@ Uma biblioteca virtual para listar jogos digitais
 
 ![ClassDiagramGameKingdom](https://github.com/Monteiro712/Game-Kingdom/assets/88221018/6369a20a-856d-4aef-90d7-1ed6c844faa9)
 
+# Objetivo
+Uma aplicação web com a finalidade de proporcionar aos usuários a possibilidade de organzar e administrar os jogos que deseja jogar futuramente, podendo separar os jogos em uma lista subdividida por categoria/preço/ano de lançamento.
 
 ## Documentação da API
 
