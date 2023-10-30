@@ -1,7 +1,7 @@
 
 # Game Kingdom
 
-Uma loja virtual de jogos digitais blabla
+Uma loja virtual de jogos digitais
 
 ![ClassDiagramGameKingdom](https://github.com/Monteiro712/Game-Kingdom/assets/88221018/6369a20a-856d-4aef-90d7-1ed6c844faa9)
 
