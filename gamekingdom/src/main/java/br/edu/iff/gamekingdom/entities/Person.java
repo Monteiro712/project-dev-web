@@ -1,16 +1,14 @@
 package br.edu.iff.gamekingdom.entities;
 
 import java.io.Serializable;
+import java.util.List;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
+
 @Entity
 public class Person implements Serializable {
 
-    private static final long serialVersionID = 1L;
+    private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -18,14 +16,17 @@ public class Person implements Serializable {
     @Column (name = "name")
     private String name;
 
-    @Column (name = "login")
-    private String login;
+    @OneToOne(mappedBy = "person")
+    private Login login;
+    @OneToMany(mappedBy = "person", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<GameLibrary> libraryName;
 
-    public Person(Long id, String name, String login) {
+    public Person(Long id, String name, Login login, List<GameLibrary> libraryName) {
         super();
         this.id = id;
         this.name = name;
         this.login = login;
+        this.libraryName = libraryName;
     }
 
     public Person() {
@@ -48,11 +49,19 @@ public class Person implements Serializable {
         this.name = name;
     }
 
-    public String getLogin() {
+    public Login getLogin() {
         return login;
     }
 
-    public void setLogin(String login) {
+    public void setLogin(Login login) {
         this.login = login;
+    }
+
+    public List<GameLibrary> getLibraryName() {
+        return libraryName;
+    }
+
+    public void setLibraryName(List<GameLibrary> libraryName) {
+        this.libraryName = libraryName;
     }
 }
