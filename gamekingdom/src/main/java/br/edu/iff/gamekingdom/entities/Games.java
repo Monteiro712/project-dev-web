@@ -1,11 +1,13 @@
 package br.edu.iff.gamekingdom.entities;
 
 import jakarta.persistence.*;
-
+import java.io.Serializable;
 import java.util.List;
+
 @Entity
-public class Games {
-    private static final long serialVersionID = 1L;
+public class Games implements Serializable{
+    private static final long serialVersionUID = 1L;
+    
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -15,21 +17,24 @@ public class Games {
     private double price;
     @Column(name = "wish_list")
     private boolean isWishlist;
-    @Column(name = "genre")
-    private Genres genre;
-    @Column(name = "platforms")
+    @ManyToMany(mappedBy = "games")
+    private List<Genres> genres;
+    @ManyToMany(mappedBy = "games")
     private List<Platforms> platforms;
-    @Column(name = "digital_stores")
+    @ManyToMany(mappedBy = "games")
     private List<DigitalStores> digitalStores;
+    @ManyToMany(mappedBy = "games")
+    private List<GameLibrary> gameLibraries;
 
-    public Games(Long id, String title, double price, boolean isWishlist, Genres genre, List<Platforms> platforms, List<DigitalStores> digitalStores) {
+    public Games(Long id, String title, double price, boolean isWishlist, List<Genres> genres, List<Platforms> platforms, List<DigitalStores> digitalStores, List<GameLibrary> gameLibraries) {
         this.id = id;
         this.title = title;
         this.price = price;
         this.isWishlist = isWishlist;
-        this.genre = genre;
+        this.genres = genres;
         this.platforms = platforms;
         this.digitalStores = digitalStores;
+        this.gameLibraries = gameLibraries;
     }
 
     public Games() {
@@ -68,12 +73,12 @@ public class Games {
         isWishlist = wishlist;
     }
 
-    public Genres getGenre() {
-        return genre;
+    public List<Genres> getGenre() {
+        return genres;
     }
 
-    public void setGenre(Genres genre) {
-        this.genre = genre;
+    public void setGenre(List<Genres> genres) {
+        this.genres = genres;
     }
 
     public List<Platforms> getPlatforms() {
@@ -90,6 +95,14 @@ public class Games {
 
     public void setDigitalStores(List<DigitalStores> digitalStores) {
         this.digitalStores = digitalStores;
+    }
+
+    public List<GameLibrary> getGameLibraries() {
+        return gameLibraries;
+    }
+
+    public void setGameLibraries(List<GameLibrary> gameLibraries) {
+        this.gameLibraries = gameLibraries;
     }
 }
 

@@ -1,17 +1,22 @@
-package br.edu.iff.gamekingdom.entities;
+/*package br.edu.iff.gamekingdom.entities;
 
 import jakarta.persistence.*;
 
 import java.util.List;
 @Entity
 public class User extends Person{
-    @Id
+    private static final long serialVersionUID = 1L;
+	@Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @Column(name = "library_name")
+    @ElementCollection
     private List<String>libraryName;
+    @OneToOne(mappedBy ="login")
+    @Column(name = "login")
+    private Login login;
 
-    public User(Long id, String name, String login, List<String> libraryName) {
+    public User(Long id, String name, List<String> login, List<String> libraryName) {
         super(id, name, login);
         this.libraryName = libraryName;
     }
@@ -28,4 +33,4 @@ public class User extends Person{
     }
 
 
-}
+}*/
