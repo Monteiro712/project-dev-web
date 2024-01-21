@@ -1,44 +1,54 @@
 package br.edu.iff.gamekingdom.controller;
 
 
+import br.edu.iff.gamekingdom.entities.DigitalStores;
+import br.edu.iff.gamekingdom.service.DigitalStoresService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping(path = "/api/v1/stores")
 public class DigitalStoresController {
 
-	@PostMapping("")
-	@ResponseBody
+	private final DigitalStoresService digitalStoresService;
 
-	public String addStore(Long id, String name, String url) {
-		return "game added.";
+	@Autowired
+	public DigitalStoresController(DigitalStoresService digitalStoresService) {
+		this.digitalStoresService = digitalStoresService;
+	}
+
+	@PostMapping
+	public ResponseEntity<DigitalStores> addStore(@RequestBody DigitalStores store) {
+		DigitalStores newStore = digitalStoresService.addStore(store);
+		return ResponseEntity.status(HttpStatus.CREATED).body(newStore);
 	}
 
 	@PutMapping("/{id}")
-	@ResponseBody
-
-	public String updateStore(@PathVariable("id")Long id, String name, String url) {
-		return "game updated.";
+	public ResponseEntity<DigitalStores> updateStore(@PathVariable Long id, @RequestBody DigitalStores store) {
+		DigitalStores updatedStore = digitalStoresService.updateStore(id, store);
+		return ResponseEntity.ok(updatedStore);
 	}
 
 	@DeleteMapping("/{id}")
-	@ResponseBody
+	public ResponseEntity<String> deleteStore(@PathVariable Long id) {
+		digitalStoresService.deleteStore(id);
+		return ResponseEntity.ok("Store deleted");
+	}
 
-	public String deleteStore(@PathVariable("id") Long id) {
-		return "store deleted";
+	@GetMapping
+	public ResponseEntity<List<DigitalStores>> listAllStores() {
+		List<DigitalStores> stores = digitalStoresService.listAllStores();
+		return ResponseEntity.ok(stores);
 	}
 
 	@GetMapping("/{id}")
 	@ResponseBody
-
-	public String findStore(@PathVariable("id") Long id) {
-		return "store found";
-	}
-
-	@GetMapping("")
-	@ResponseBody
-
-	public String listAll() {
-		return "all stores is there.";
+	public ResponseEntity<DigitalStores> findDigitalStoreById(@PathVariable("id") Long id) {
+		 DigitalStores game = digitalStoresService.findDigitalStoreById(id);
+		return ResponseEntity.ok(game);
 	}
 }

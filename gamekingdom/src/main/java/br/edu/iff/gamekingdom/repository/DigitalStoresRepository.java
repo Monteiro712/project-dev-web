@@ -8,3 +8,4 @@ import br.edu.iff.gamekingdom.entities.DigitalStores;
 public interface DigitalStoresRepository extends JpaRepository<DigitalStores, Long> {
     DigitalStores findByName(String name);
 }
+

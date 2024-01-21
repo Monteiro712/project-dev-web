@@ -1,6 +1,7 @@
 package br.edu.iff.gamekingdom.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.rest.webmvc.ResourceNotFoundException;
 import org.springframework.stereotype.Service;
 import br.edu.iff.gamekingdom.entities.Games;
 import br.edu.iff.gamekingdom.entities.Genres;
@@ -20,17 +21,35 @@ public class GamesService {
         this.gamesRepository = gamesRepository;
     }
 
-    public List<Games> findGamesByGenre(Genres genre) {
-        return gamesRepository.findByGenres(genre);
+    public Games addGame(Games game) {
+        // Lógica para adicionar um novo jogo
+        return gamesRepository.save(game);
     }
 
-    public List<Games> findGamesByPlatform(Platforms platform) {
-        return gamesRepository.findByPlatforms(platform);
+    public Games updateGame(Long id, Games game) {
+        // Lógica para atualizar um jogo existente
+        Games existingGame = gamesRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Game not found"));
+        existingGame.setTitle(game.getTitle());
+        existingGame.setPrice(game.getPrice());
+        existingGame.setWishlist(game.isWishlist());
+        // Adicione lógica para atualizar outros campos, se necessário
+        return gamesRepository.save(existingGame);
     }
 
-    public List<Games> findGamesByDigitalStore(DigitalStores digitalStore) {
-        return gamesRepository.findByDigitalStores(digitalStore);
+    public void deleteGame(Long id) {
+        // Lógica para deletar um jogo
+        gamesRepository.deleteById(id);
     }
 
-    // Outros métodos do serviço, se necessário
+    public List<Games> listAllGames() {
+        // Lógica para retornar todos os jogos
+        return gamesRepository.findAll();
+    }
+
+    public Games findGameById(Long id) {
+        // Lógica para buscar um jogo pelo ID
+        return gamesRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Game not found with id: " + id));
+    }
 }

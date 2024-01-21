@@ -20,5 +20,4 @@ public class PersonService {
         return personRepository.findByName(name);
     }
 
-    // Outros métodos do serviço, se necessário
 }

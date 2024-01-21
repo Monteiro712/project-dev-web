@@ -1,44 +1,51 @@
 package br.edu.iff.gamekingdom.controller;
 
-import io.swagger.v3.oas.annotations.Operation;
+import br.edu.iff.gamekingdom.entities.Platforms;
+import br.edu.iff.gamekingdom.service.PlatformsService;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping(path = "/api/v1/platform")
 public class PlatformsController {
 
-	@PostMapping("")
-	@ResponseBody
-	@Operation(summary = "Add a store")
-	public String addPlatform(Long id, String name) {
-		return "platform added.";
+	private final PlatformsService platformsService;
+
+	public PlatformsController(PlatformsService platformsService) {
+		this.platformsService = platformsService;
+	}
+
+	@PostMapping
+	public ResponseEntity<Platforms> addPlatform(@RequestBody Platforms platform) {
+		Platforms newPlatform = platformsService.addPlatform(platform);
+		return ResponseEntity.status(HttpStatus.CREATED).body(newPlatform);
 	}
 
 	@PutMapping("/{id}")
-	@ResponseBody
-	@Operation(summary = "Update a store")
-	public String updatePlatform(@PathVariable("id")Long id, String name) {
-		return "platform updated.";
+	public ResponseEntity<Platforms> updatePlatform(@PathVariable Long id, @RequestBody Platforms platform) {
+		Platforms updatedPlatform = platformsService.updatePlatform(id, platform);
+		return ResponseEntity.ok(updatedPlatform);
 	}
 
 	@DeleteMapping("/{id}")
-	@ResponseBody
-	@Operation(summary = "Delete a store")
-	public String deletePlatform(@PathVariable("id") Long id) {
-		return "platform deleted";
+	public ResponseEntity<String> deletePlatform(@PathVariable Long id) {
+		platformsService.deletePlatform(id);
+		return ResponseEntity.ok("Platform deleted");
+	}
+
+	@GetMapping
+	public ResponseEntity<List<Platforms>> listAllPlatforms() {
+		List<Platforms> platforms = platformsService.listAllPlatforms();
+		return ResponseEntity.ok(platforms);
 	}
 
 	@GetMapping("/{id}")
 	@ResponseBody
-	@Operation(summary = "Return a store")
-	public String findPlatform(@PathVariable("id") Long id) {
-		return "platform found";
-	}
-
-	@GetMapping("")
-	@ResponseBody
-	@Operation(summary = "List all platforms")
-	public String listAll() {
-		return "all platforms is there.";
+	public ResponseEntity<Platforms> findPlatformById(@PathVariable("id") Long id) {
+		Platforms platform = platformsService.findPlatformById(id);
+		return ResponseEntity.ok(platform);
 	}
 }
