@@ -1,11 +1,10 @@
 package br.edu.iff.gamekingdom.entities;
 
 import java.io.Serializable;
-import java.util.List;
 
 import jakarta.persistence.*;
 
-@Entity
+@MappedSuperclass
 public class Person implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -16,17 +15,13 @@ public class Person implements Serializable {
     @Column (name = "name")
     private String name;
 
-    @OneToOne(mappedBy = "person")
-    private Login login;
-    @OneToMany(mappedBy = "person", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<GameLibrary> libraryName;
+	@ManyToOne()
+	@JoinColumn(name = "person_fk")
+	private Login login;
 
-    public Person(Long id, String name, Login login, List<GameLibrary> libraryName) {
-        super();
-        this.id = id;
+    public Person(String name, Login login) {
         this.name = name;
         this.login = login;
-        this.libraryName = libraryName;
     }
 
     public Person() {
@@ -55,13 +50,5 @@ public class Person implements Serializable {
 
     public void setLogin(Login login) {
         this.login = login;
-    }
-
-    public List<GameLibrary> getLibraryName() {
-        return libraryName;
-    }
-
-    public void setLibraryName(List<GameLibrary> libraryName) {
-        this.libraryName = libraryName;
     }
 }

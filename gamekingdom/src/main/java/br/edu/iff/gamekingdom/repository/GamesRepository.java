@@ -2,19 +2,9 @@ package br.edu.iff.gamekingdom.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
-import br.edu.iff.gamekingdom.entities.Games;
-import br.edu.iff.gamekingdom.entities.Genres;
-import br.edu.iff.gamekingdom.entities.Platforms;
-import br.edu.iff.gamekingdom.entities.DigitalStores;
-
-import java.util.List;
+import br.edu.iff.gamekingdom.entities.Game;
 
 @Repository
-public interface GamesRepository extends JpaRepository<Games, Long> {
+public interface GamesRepository extends JpaRepository<Game, Long> {
 
-    List<Games> findByGenres(Genres genre);
-
-    List<Games> findByPlatforms(Platforms platform);
-
-    List<Games> findByDigitalStores(DigitalStores digitalStore);
 }

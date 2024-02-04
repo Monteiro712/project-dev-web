@@ -7,5 +7,5 @@ import br.edu.iff.gamekingdom.entities.Person;
 @Repository
 public interface PersonRepository extends JpaRepository<Person, Long> {
 
-    Person findByName(String name);
 }
+

@@ -1,36 +1,31 @@
-/*package br.edu.iff.gamekingdom.entities;
+package br.edu.iff.gamekingdom.entities;
 
-import jakarta.persistence.*;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.OneToOne;
 
-import java.util.List;
 @Entity
-public class User extends Person{
+public class User extends Person {
     private static final long serialVersionUID = 1L;
 	@Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @Column(name = "library_name")
-    @ElementCollection
-    private List<String>libraryName;
-    @OneToOne(mappedBy ="login")
-    @Column(name = "login")
-    private Login login;
 
-    public User(Long id, String name, List<String> login, List<String> libraryName) {
-        super(id, name, login);
-        this.libraryName = libraryName;
-    }
+    @OneToOne(mappedBy = "user")
+    private GameLibrary library;
 
-    public User() {
+    public User(String name, Login login) {
+        super(name, login);
 
     }
-    public List<String> getLibraryName() {
-        return libraryName;
+   
+    public GameLibrary getLibrary() {
+        return library;
     }
 
-    public void setLibraryName(List<String> libraryName) {
-        this.libraryName = libraryName;
+    public void setLibrary(GameLibrary library) {
+        this.library = library;
     }
-
-
-}*/
+}
