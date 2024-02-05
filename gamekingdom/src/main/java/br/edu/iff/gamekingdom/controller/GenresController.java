@@ -1,44 +1,52 @@
 package br.edu.iff.gamekingdom.controller;
 
 
+import br.edu.iff.gamekingdom.entities.Genres;
+import br.edu.iff.gamekingdom.service.GenresService;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping(path = "/api/v1/genres")
 public class GenresController {
 
-    @PostMapping("")
-    @ResponseBody
+    private final GenresService genresService;
 
-    public String addGenre(Long id, String name) {
-        return "genre added.";
+    public GenresController(GenresService genresService) {
+        this.genresService = genresService;
+    }
+
+    @PostMapping
+    public ResponseEntity<Genres> addGenre(@RequestBody Genres genre) {
+        Genres newGenre = genresService.addGenre(genre);
+        return ResponseEntity.status(HttpStatus.CREATED).body(newGenre);
     }
 
     @PutMapping("/{id}")
-    @ResponseBody
-
-    public String updateGenre(@PathVariable("id")Long id, String name) {
-        return "genre updated.";
+    public ResponseEntity<Genres> updateGenre(@PathVariable Long id, @RequestBody Genres genre) {
+        Genres updatedGenre = genresService.updateGenre(id, genre);
+        return ResponseEntity.ok(updatedGenre);
     }
 
     @DeleteMapping("/{id}")
-    @ResponseBody
+    public ResponseEntity<String> deleteGenre(@PathVariable Long id) {
+        genresService.deleteGenre(id);
+        return ResponseEntity.ok("Genre deleted");
+    }
 
-    public String deleteGenre(@PathVariable("id") Long id) {
-        return "genre deleted";
+    @GetMapping
+    public ResponseEntity<List<Genres>> listAllGenres() {
+        List<Genres> genres = genresService.listAllGenres();
+        return ResponseEntity.ok(genres);
     }
 
     @GetMapping("/{id}")
     @ResponseBody
-
-    public String findGenre(@PathVariable("id") Long id) {
-        return "genre found";
-    }
-
-    @GetMapping("")
-    @ResponseBody
-
-    public String listAll() {
-        return "all genre is there.";
+    public ResponseEntity<Genres> findGenreById(@PathVariable("id") Long id) {
+        Genres genre = genresService.findGenreById(id);
+        return ResponseEntity.ok(genre);
     }
 }

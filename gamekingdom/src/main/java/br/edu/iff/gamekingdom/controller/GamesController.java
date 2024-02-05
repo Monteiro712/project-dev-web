@@ -1,49 +1,51 @@
 package br.edu.iff.gamekingdom.controller;
 
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.RestController;
+import br.edu.iff.gamekingdom.entities.Games;
+import br.edu.iff.gamekingdom.service.GamesService;
+import org.springframework.http.ResponseEntity;
+import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping(path = "/api/v1/games")
 public class GamesController {
 
-	@PostMapping("")
-	@ResponseBody
-	public String addGame(Long id, String title, double price, boolean isWishlist, String platforms, String digitalStores) {
-		return "game added.";
+	private final GamesService gamesService;
+
+	public GamesController(GamesService gamesService) {
+		this.gamesService = gamesService;
+	}
+
+	@PostMapping
+	public ResponseEntity<Games> addGame(@RequestBody Games game) {
+		Games newGame = gamesService.addGame(game);
+		return ResponseEntity.status(HttpStatus.CREATED).body(newGame);
 	}
 
 	@PutMapping("/{id}")
-	@ResponseBody
-	public String updateGame(@PathVariable("id")Long id, String title, double price, boolean isWishlist, String platforms, String digitalStores) {
-		return "game updated.";
+	public ResponseEntity<Games> updateGame(@PathVariable Long id, @RequestBody Games game) {
+		Games updatedGame = gamesService.updateGame(id, game);
+		return ResponseEntity.ok(updatedGame);
 	}
 
 	@DeleteMapping("/{id}")
-	@ResponseBody
+	public ResponseEntity<String> deleteGame(@PathVariable Long id) {
+		gamesService.deleteGame(id);
+		return ResponseEntity.ok("Game deleted");
+	}
 
-	public String deleteGame(@PathVariable("id") Long id) {
-		return "game deleted";
+	@GetMapping
+	public ResponseEntity<List<Games>> listAllGames() {
+		List<Games> games = gamesService.listAllGames();
+		return ResponseEntity.ok(games);
 	}
 
 	@GetMapping("/{id}")
 	@ResponseBody
-
-	public String findGame(@PathVariable("id") Long id) {
-		return "game found";
+	public ResponseEntity<Games> findGameById(@PathVariable("id") Long id) {
+		Games game = gamesService.findGameById(id);
+		return ResponseEntity.ok(game);
 	}
-
-	@GetMapping("")
-	@ResponseBody
-
-	public String listAll() {
-		return "all games is there.";
-	}
-
 }
