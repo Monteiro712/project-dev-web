@@ -6,48 +6,58 @@ import java.io.Serializable;
 import java.util.List;
 
 @Entity
-public class GameLibrary implements Serializable{
-    private static final long serialVersionUID = 1L;
+public class GameLibrary implements Serializable {
+	
+	private static final long serialVersionUID = 1L;
+	
 	@Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-    @ManyToMany
-    @JoinTable(
-            name = "gamelib_games",
-            joinColumns = @JoinColumn(name = "gamelibrary_id"),
-            inverseJoinColumns = @JoinColumn(name = "games_id"))
-    private List<Games> games;
-    @ManyToOne
-    @JoinColumn(name = "person_id")
-    private Person person;
-    public GameLibrary(Long id, List<Games> games, Person person) {
-        this.id = id;
-        this.games = games;
-        this.person = person;
-    }
-    public GameLibrary() {
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private Long id;
+	
+    @OneToMany(mappedBy = "gameLibrary", cascade = CascadeType.ALL)
+    private List<Game> games;
 
-    }
-    public void setId(Long id) {
-        this.id = id;
-    }
-    public Long getId() {
-        return id;
+	@OneToOne
+	@JoinColumn(name = "user_id")
+	private User user;
+
+	public GameLibrary(User user) {
+		this.user = user;
+	}
+
+	public GameLibrary() {
+
+	}
+
+	public void setId(Long id) {
+		this.id = id;
+	}
+
+	public Long getId() {
+		return id;
+	}
+
+	public List<Game> getGames() {
+		return games;
+	}
+
+	public void addGame(Game game) {
+		this.games.add(game);
+	}
+
+	public void deleteGame(Game game) {
+		this.games.remove(game);
+	}
+
+	public void setGames(List<Game> games) {
+		this.games = games;
+	}
+
+    public User getUser() {
+        return user;
     }
 
-    public List<Games> getGames() {
-        return games;
-    }
-
-    public void setGames(List<Games> games) {
-        this.games = games;
-    }
-
-    public Person getPerson() {
-        return person;
-    }
-
-    public void setPerson(Person person) {
-        this.person = person;
-    }
+	public void setUser(User user) {
+		this.user = user;
+	}
 }
