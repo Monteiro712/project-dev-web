@@ -3,6 +3,8 @@ package br.edu.iff.gamekingdom.entities;
 import java.io.Serializable;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
 
 @MappedSuperclass
 public class Person implements Serializable {
@@ -12,9 +14,13 @@ public class Person implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @NotNull(message = "cant be null")
+    @Size(min = 3, max = 60, message = "enter with your name")
     @Column (name = "name")
     private String name;
 
+    @NotNull(message = "cant be null")
+    @Size(min = 1, max = 60, message = "enter with your login")
 	@ManyToOne()
 	@JoinColumn(name = "person_fk")
 	private Login login;

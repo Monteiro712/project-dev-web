@@ -3,6 +3,8 @@ package br.edu.iff.gamekingdom.entities;
 import java.io.Serializable;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
 
 
 @Entity
@@ -13,10 +15,12 @@ public class Login implements Serializable {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
-	
+	@NotNull(message = "cant be null")
+	@Size(min = 6, max = 60, message = "enter with your password")
 	@Column(name = "password")
 	private String password;
-	
+	@NotNull(message = "cant be null")
+	@Size(min = 30, max = 60, message = "enter with your email address")
 	@Column(name = "email")
 	private String email;
 	
