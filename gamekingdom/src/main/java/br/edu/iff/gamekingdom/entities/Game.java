@@ -2,6 +2,11 @@ package br.edu.iff.gamekingdom.entities;
 
 import io.micrometer.common.lang.Nullable;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.DecimalMax;
+import jakarta.validation.constraints.DecimalMin;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
+
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -16,10 +21,13 @@ public class Game implements Serializable {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
-	
+	@NotNull(message = "cant be null")
+	@Size(min = 1, max = 60, message = "enter with the game name")
 	@Column(name = "title")
 	private String title;
-	
+	@NotNull(message = "cant be null")
+	@DecimalMin(value = "1", message = "enter some value to the game")
+	@DecimalMax(value = "400", message = "more than this is a theft")
 	@Column(name = "price")
 	private Double price;
 	
