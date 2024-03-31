@@ -1,12 +1,12 @@
 package br.edu.iff.gamekingdom.controller.view;
-
 import br.edu.iff.gamekingdom.entities.Game;
 import br.edu.iff.gamekingdom.service.GameService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
-
 import java.util.List;
 
 @Controller
@@ -30,7 +30,10 @@ public class GameViewController {
     }
 
     @PostMapping("/add")
-    public String addGame(@ModelAttribute("game") Game game) {
+    public String addGame(@Valid @ModelAttribute("game") Game game, BindingResult result, Model model) {
+        if (result.hasErrors()) {
+            return "addGame";
+        }
         gameService.addGame(game.getTitle(), game.getPrice());
         return "redirect:/games/list";
     }
@@ -43,7 +46,11 @@ public class GameViewController {
     }
 
     @PostMapping("/update/{id}")
-    public String updateGame(@PathVariable("id") Long id, @ModelAttribute("game") Game game) {
+    public String updateGame(@PathVariable("id") Long id, @Valid @ModelAttribute("game") Game game, BindingResult result, Model model) {
+        if (result.hasErrors()) {
+            model.addAttribute("mensagemErro", result.getAllErrors());
+            return "error";
+        }
         gameService.updateGame(id, game.getTitle(), game.getPrice());
         return "redirect:/games/list";
     }
